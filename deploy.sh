@@ -14,5 +14,14 @@ sed -i "s/^#Color/Color/g" /etc/pacman.conf
 # Use all cores for compilation.
 sed -i "s/-j2/-j$(nproc)/;s/^#MAKEFLAGS/MAKEFLAGS/" /etc/makepkg.conf
 
+#set up ssh-agent to be started with systemd
+systemctl is-active --user --quiet ssh-agent 
+if [[ $? -ne 0 ]]; then
+	systemctl --user enable ssh-agent 
+	systemctl --user start ssh-agent 
+else
+	echo "nothing to be done"
+fi
+
 putgitrepo "https://github.com/redroc/dotfiles.git" "/home/$USER"
 echo "installation complete"
