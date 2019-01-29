@@ -6,7 +6,7 @@
 ,ttf-fira-code,"is a nice monospace font."
 ,ttf-freefont,"provides sans and serif fonts." 
 ,termite,"is a terminal."
-,vim,"does not need any introduction."
+,gvim,"does bring with it vim with clipboard enabled."
 ,pcmanfm,"is a graphical file manager."
 ,arandr,"is a UI for screen adjustment."
 ,keepassxc,"is a password manager."
