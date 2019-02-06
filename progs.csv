@@ -9,5 +9,6 @@
 ,gvim,"does bring with it vim with clipboard enabled."
 ,pcmanfm,"is a graphical file manager."
 ,arandr,"is a UI for screen adjustment."
-,keepassxc,"is a password manager."
-,nextcloud-client,"is a program to sync files."
+,slock,"is a program to lock the screen."
+A,gksu,"is a program to start things with sudo privileges."
+,speedcrunch,"is a scientific calculator."
