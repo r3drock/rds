@@ -66,13 +66,20 @@ installationloop() { \
 
 
 # Start of the script
-
-# ask whether to install sway or i3
-read -p "Would you like to install i3 or sway:" wm
-if [ "$wm" != "sway" -a "$wm" != "i3" ]; then
-	error "type in i3 or sway!"
+# check for manjaro
+MANJARO = 0
+cat /etc/lsb-release | grep ManjaroLinux
+if [ $? -eq 0 ]; then
+    MANJARO = 1
 fi
 
+# ask whether to install sway or i3
+if [ $MANJARO -eq 0 ]; then
+    read -p "Would you like to install i3 or sway:" wm
+    if [ "$wm" != "sway" -a "$wm" != "i3" ]; then
+        error "type in i3 or sway!"
+    fi
+fi
 
 pacman -Syu --noconfirm --needed base-devel git cowsay ||  error "Are you sure you're running this as the root user? Are you sure you're using an Arch-based distro? ;-) Are you sure you have an internet connection? Are you sure your Arch keyring is updated?"
 
@@ -93,11 +100,13 @@ manualinstall "$aurhelper" || error "Failed to install aurhelper."
 # installs each needed program the way required. 
 installationloop
 
-# additionally install either sway or i3
-if [ $wm = sway ]; then
-	progsfile="https://gitlab.com/r3drock/rds/raw/master/swayprogs.csv"
-elif [ $wm = i3 ]; then 
-	progsfile="https://gitlab.com/r3drock/rds/raw/master/i3progs.csv"
+if [ $MANJARO -eq 0 ]; then
+    # additionally install either sway or i3
+    if [ $wm = sway ]; then
+        progsfile="https://gitlab.com/r3drock/rds/raw/master/swayprogs.csv"
+    elif [ $wm = i3 ]; then 
+        progsfile="https://gitlab.com/r3drock/rds/raw/master/i3progs.csv"
+    fi
 fi
 installationloop
 
@@ -121,9 +130,5 @@ sudo -u "$name" echo "Now all vim plugins will be installed."
 sudo -u "$name" echo "After installing you need to press :q two times in order to close vim."
 sudo -u "$name" read -p "Press [Enter] key to start install."
 sudo -u "$name" nvim -E -c "PlugInstall"
-
-#install YCM
-sudo -u "$name" cd ~/.vim/bundle/YouCompleteMe
-sudo -u "$name" python3 install.py --clang-completer
 
 sudo -u "$name" echo "installation complete"
